@@ -1,6 +1,8 @@
-# Invictus - Krishi Mitra
+<p align="center">
+  <img src="KrishiMitra_logo/field (1).png" alt="Invictus - Krishi Mitra Logo" width="200">
+</p>
 
-![Invictus Logo](KrishiMitra_logo/field (1).png)
+<h1 align="center">Invictus - Krishi Mitra</h1>
 
 ## 🌾 Overview
 
