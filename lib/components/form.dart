@@ -116,25 +116,37 @@ class _CropInputFormState extends State<CropInputForm> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                     controller: _locationController,
-                    decoration: InputDecoration(labelText: "Location (State/District)"),
+                    decoration: InputDecoration(labelText: "Location (State/District)", labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
                     validator: (value) => value!.isEmpty ? "Enter location" : null,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                     controller: _soilTypeController,
                     decoration:
-                        InputDecoration(labelText: "Soil Type (Clay/Loam/Sandy)"),
+                        InputDecoration(labelText: "Soil Type (Clay/Loam/Sandy)", labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
                     validator: (value) => value!.isEmpty ? "Enter soil type" : null,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                     controller: _farmSizeController,
-                    decoration: InputDecoration(labelText: "Farm Size (acres)"),
+                    decoration: InputDecoration(labelText: "Farm Size (acres)", labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
                     keyboardType: TextInputType.number,
                     validator: (value) => value!.isEmpty ? "Enter farm size" : null,
                   ),
@@ -142,26 +154,38 @@ class _CropInputFormState extends State<CropInputForm> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                     controller: _cropTypeController,
                     decoration: InputDecoration(
-                        labelText: "Preferred Crop Type (optional)"),
+                        labelText: "Preferred Crop Type (optional)", labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                     controller: _lastCropController,
                     decoration:
-                        InputDecoration(labelText: "Previous Crop Cultivated"),
+                        InputDecoration(labelText: "Previous Crop Cultivated", labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                     controller: _budgetController,
                     decoration:
-                        InputDecoration(labelText: "Estimated Budget (INR)"),
-                    keyboardType: TextInputType.number,
+                        InputDecoration(labelText: "Estimated Budget (INR)", labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
+                    // keyboardType: TextInputType.number,
                     validator: (value) => value!.isEmpty ? "Enter budget" : null,
                   ),
                 ),

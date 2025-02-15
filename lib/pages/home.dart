@@ -439,15 +439,15 @@ class _HomeState extends State<Home> {
                           const Post(
                             profileImage:
                                 'https://media.istockphoto.com/id/543212762/photo/tractor-cultivating-field-at-spring.jpg?s=612x612&w=0&k=20&c=uJDy7MECNZeHDKfUrLNeQuT7A1IqQe89lmLREhjIJYU=',
-                            username: 'Government123',
+                            username: 'UP Government',
                             postImage:
                                 'https://media.istockphoto.com/id/543212762/photo/tractor-cultivating-field-at-spring.jpg?s=612x612&w=0&k=20&c=uJDy7MECNZeHDKfUrLNeQuT7A1IqQe89lmLREhjIJYU=',
                             likes: 10,
-                            caption: 'Scheme for farmers',
+                            caption: 'UP Kisan Samman Nidhi - 17th',
                             description:
-                                '100000000000000000000000000ADIOUBFNWJQOPFIWEUGFHIJWOVPBJWDnckoDFIOBHWNJOovhwdbjnjpoewqihugadfysvhbcsjnajfoihugdvbhnjfaoihd',
+                                '💰 ₹2000 Direct Benefit Transfer*  ✅ *Coverage:* 2.35 crore UP farmers  ✅ *e-KYC Deadline:* 31 July 2024  ✅ *Payment Schedule:*  - West UP: 15-20 July  - East UP: 20-25 July  - Bundelkhand: 25-30 July  ',
                             link:
-                                'https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2002012',
+                                'https://upkisan.gov.in',
                           ),
                         ],
                       ),

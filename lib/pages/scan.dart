@@ -225,6 +225,8 @@ class _ScanState extends State<Scan> {
   File? _image;
   String? _prediction;
   String? _cure;
+  String? _recproducts;
+  String? _symp;
   bool _loading = false;
 
   final ImagePicker _picker = ImagePicker();
@@ -280,11 +282,16 @@ class _ScanState extends State<Scan> {
     var responseBody = await response.stream.bytesToString();
     var jsonData = json.decode(responseBody);
 
+    print("jsonData $jsonData");
+
     setState(() {
-      _prediction = jsonData['prediction'].toString();
-      _cure = jsonData['cure'].toString();
-      _loading = false;
-    });
+  _prediction = jsonData['prediction'].toString();
+  _cure = json.decode(jsonData['info'])["cure"].toString();
+  // _symp = jsonData['info']["symptoms"].toString();
+  _recproducts = json.decode(jsonData['info'])["recommended_products"].toString(); // ✅ Fix applied
+  _loading = false;
+});
+
   }
 
   @override
@@ -311,7 +318,7 @@ class _ScanState extends State<Scan> {
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: queryData.size.height*0.7,
+                      height: queryData.size.height * 0.254,
                       width: 160,
                       decoration: BoxDecoration(border: Border.all()),
                       child: Center(
@@ -324,7 +331,7 @@ class _ScanState extends State<Scan> {
                   )
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Image.file(_image!, height: 330),
+                    child: Image.file(_image!, height: queryData.size.height * 0.254),
                   ),
             SizedBox(height: 20),
             _prediction != null
@@ -334,48 +341,197 @@ class _ScanState extends State<Scan> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            style: const TextStyle(color: Colors.black),
-                            children: [
-                              TextSpan(
-                                text: "Prediction: ",
-                                style: const TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Poppins-Regular"),
-                              ),
-                              const TextSpan(text: ' '),
-                              TextSpan(
-                                  text: "${_prediction?.replaceAll('_', ' ')}",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins-Regular",
-                                      fontSize: 16)),
-                            ],
-                          ),
+                        // RichText(
+                        //   text: TextSpan(
+                        //     style: const TextStyle(color: Colors.black),
+                        //     children: [
+                        //       TextSpan(
+                        //         text: "Prediction: ",
+                        //         style: const TextStyle(
+                        //             color: Colors.red,
+                        //             fontSize: 18,
+                        //             fontWeight: FontWeight.bold,
+                        //             fontFamily: "Poppins-Regular"),
+                        //       ),
+                        //       const TextSpan(text: ' '),
+                        //       TextSpan(
+                        //           text: "${_prediction?.replaceAll('_', ' ')}",
+                        //           style: TextStyle(
+                        //               fontFamily: "Poppins-Regular",
+                        //               fontSize: 16)),
+                        //     ],
+                        //   ),
+                        // ),
+
+                        Table(
+                          border: TableBorder.all(),
+                          columnWidths: const {
+                            0: FlexColumnWidth(1),
+                            1: FlexColumnWidth(3),
+                          },
+                          children: [
+                            TableRow(
+                              decoration:
+                                  BoxDecoration(color: Colors.grey[200]),
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Category",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Details",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Plant/Fruit",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+  padding: EdgeInsets.all(8.0),
+  child: Text(
+    (_prediction?.replaceAll('___', ' ') ?? '').split(' ').first,
+    style: TextStyle(fontSize: 16),
+  ),
+),
+
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Disease",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                               Padding(
+  padding: EdgeInsets.all(8.0),
+  child: Text(
+    (_prediction?.replaceAll('___', ' ') ?? '').split(' ').length > 1 
+      ? (_prediction?.replaceAll('___', ' ') ?? '').split(' ')[1].replaceAll('_', ' ') 
+      : '', 
+    style: TextStyle(fontSize: 16),
+  ),
+),
+
+
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Cure",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _cure?.replaceAll('_', ' ') ?? '',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            TableRow(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Symptoms",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _symp?.replaceAll('_', ' ') ?? '',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            TableRow(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Recommended Products",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _recproducts ?? '',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: const TextStyle(color: Colors.black),
-                            children: [
-                              TextSpan(
-                                text: "Cure: ",
-                                style: const TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Poppins-Regular"),
-                              ),
-                              TextSpan(
-                                  text: "${_cure?.replaceAll('_', ' ')}",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins-Regular",
-                                      fontSize: 16)),
-                            ],
-                          ),
-                        ),
+
+                        // RichText(
+                        //   textAlign: TextAlign.center,
+                        //   text: TextSpan(
+                        //     style: const TextStyle(color: Colors.black),
+                        //     children: [
+                        //       TextSpan(
+                        //         text: "Cure: ",
+                        //         style: const TextStyle(
+                        //             color: Colors.green,
+                        //             fontSize: 18,
+                        //             fontWeight: FontWeight.bold,
+                        //             fontFamily: "Poppins-Regular"),
+                        //       ),
+                        //       TextSpan(
+                        //           text: "${_cure?.replaceAll('_', ' ')}",
+                        //           style: TextStyle(
+                        //               fontFamily: "Poppins-Regular",
+                        //               fontSize: 16)),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   )
@@ -488,7 +644,6 @@ class _ScanState extends State<Scan> {
     );
   }
 }
-
 
 // import 'dart:io';
 // import 'package:flutter/material.dart';
@@ -610,7 +765,6 @@ class _ScanState extends State<Scan> {
 //     super.dispose();
 //   }
 // }
-
 
 class BottomHemispherePainter extends CustomPainter {
   @override

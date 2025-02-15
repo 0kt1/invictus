@@ -126,10 +126,10 @@ class _MarketState extends State<Market> {
                 child: DataTable(
                   columnSpacing: 20,
                   columns: [
-                    DataColumn(label: Text("#")),
-                    DataColumn(label: Text("Name")),
-                    DataColumn(label: Text("Wholesale ₹/Qtl")),
-                    DataColumn(label: Text("Retail ₹/Kg")),
+                    DataColumn(label: Text("#", style: TextStyle(fontWeight: FontWeight.bold),)),
+                    DataColumn(label: Text("Name", style: TextStyle(fontWeight: FontWeight.bold),)),
+                    DataColumn(label: Text("Wholesale ₹/Qtl", style: TextStyle(fontWeight: FontWeight.bold),)),
+                    DataColumn(label: Text("Retail ₹/Kg", style: TextStyle(fontWeight: FontWeight.bold),)),
                   ],
                   rows: marketData
                       .asMap()
