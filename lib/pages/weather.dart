@@ -85,9 +85,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Map<String, List<WeatherData>> groupedWeather = {}; // Grouped by date
   List<WeatherData> firstDayWeather = [];
 
-  double lat = userLocation!.latitude; // Default: user location
-  double lon = userLocation!.longitude;
-  String cityName = "Bangalore";
+  double lat = userLocation != null ? userLocation!.latitude : 13.0843; // Default: user location
+  double lon = userLocation != null ?userLocation!.longitude : 80.2705;
+  String cityName = "Chennai";
   TextEditingController searchController = TextEditingController();
 
   Future<void> fetchData() async {
@@ -743,202 +743,178 @@ class _WeatherScreenState extends State<WeatherScreen> {
       //   ),
       // ),
 
-      body: Stack(
-        children: [
-          Container(
-            height: size.height,
-            width: size.width,
-            decoration: const BoxDecoration(
-                // color: Colors.green,
-                // borderRadius: BorderRadius.only(
-                //   bottomLeft: Radius.circular(25),
-                //   bottomRight: Radius.circular(25),
-                // ),
-                ),
-            child: ClipRRect(
-                // borderRadius: const BorderRadius.only(
-                //   bottomLeft: Radius.circular(25),
-                //   bottomRight: Radius.circular(25),
-                // ),
-                // child: Image.asset(
-                //   "assets/images/weather2.jpg",
-                //   fit: BoxFit.cover, // Ensures the image covers the container
-                // ),
-                ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                "assets/images/2.jpg"), // Change to your image path
+            fit: BoxFit.cover, // Ensures the image covers the entire background
           ),
-          Positioned(
-            child: Center(
-              child: Container(
-                height: size.height,
-                width: size.height,
-                decoration: BoxDecoration(
-                    // color: isDarkMode ? Colors.black : Colors.white,
-                    ),
-                child: SafeArea(
-                  child: Stack(
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: size.height * 0.01,
-                                horizontal: size.width * 0.05,
+        ),
+        child: Stack(
+          children: [
+            Container(
+              height: size.height,
+              width: size.width,
+              decoration: const BoxDecoration(
+                  // color: Colors.green,
+                  // borderRadius: BorderRadius.only(
+                  //   bottomLeft: Radius.circular(25),
+                  //   bottomRight: Radius.circular(25),
+                  // ),
+                  ),
+              child: ClipRRect(
+                  // borderRadius: const BorderRadius.only(
+                  //   bottomLeft: Radius.circular(25),
+                  //   bottomRight: Radius.circular(25),
+                  // ),
+                  // child: Image.asset(
+                  //   "assets/images/weather2.jpg",
+                  //   fit: BoxFit.cover, // Ensures the image covers the container
+                  // ),
+                  ),
+            ),
+            Positioned(
+              child: Center(
+                child: Container(
+                  height: size.height,
+                  width: size.height,
+                  decoration: BoxDecoration(
+                      // color: isDarkMode ? Colors.black : Colors.white,
+                      ),
+                  child: SafeArea(
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: size.height * 0.01,
+                                  horizontal: size.width * 0.05,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // FaIcon(
+                                    //   FontAwesomeIcons.bars,
+                                    //   color: isDarkMode ? Colors.white : Colors.black,
+                                    // ),
+                                    Align(
+                                      child: Text(
+                                        'Weather', //TODO: change app name
+                                        style: GoogleFonts.questrial(
+                                          color: isDarkMode
+                                              ? Colors.white
+                                              : const Color(0xff1D1617),
+                                          fontSize: size.height * 0.025,
+                                        ),
+                                      ),
+                                    ),
+                                    // FaIcon(
+                                    //   FontAwesomeIcons.plusCircle,
+                                    //   color: isDarkMode
+                                    //       ? Colors.white
+                                    //       : Colors.black,
+                                    // ),
+                                  ],
+                                ),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // FaIcon(
-                                  //   FontAwesomeIcons.bars,
-                                  //   color: isDarkMode ? Colors.white : Colors.black,
-                                  // ),
-                                  Align(
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: TextField(
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                    labelText: "Search city",
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.search),
+                                      onPressed: () {
+                                        if (searchController.text.isNotEmpty) {
+                                          fetchLatLon(searchController.text);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.03,
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Weather', //TODO: change app name
+                                      cityName,
                                       style: GoogleFonts.questrial(
                                         color: isDarkMode
                                             ? Colors.white
-                                            : const Color(0xff1D1617),
-                                        fontSize: size.height * 0.025,
+                                            : Colors.black,
+                                        fontSize: size.height * 0.02,
+                                        fontWeight: FontWeight.bold,
+                                        
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                  ),
-                                  // FaIcon(
-                                  //   FontAwesomeIcons.plusCircle,
-                                  //   color: isDarkMode
-                                  //       ? Colors.white
-                                  //       : Colors.black,
-                                  // ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: TextField(
-                                controller: searchController,
-                                decoration: InputDecoration(
-                                  labelText: "Search city",
-                                  suffixIcon: IconButton(
-                                    icon: Icon(Icons.search),
-                                    onPressed: () {
-                                      if (searchController.text.isNotEmpty) {
-                                        fetchLatLon(searchController.text);
-                                      }
-                                    },
                                   ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.03,
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.005,
+                                ),
+                                child: Align(
                                   child: Text(
-                                    cityName,
+                                    'Today', //day
                                     style: GoogleFonts.questrial(
                                       color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: size.height * 0.02,
-                                      fontWeight: FontWeight.bold,
-                                      
+                                          ? Colors.white54
+                                          : Colors.black54,
+                                      fontSize: size.height * 0.035,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.005,
-                              ),
-                              child: Align(
-                                child: Text(
-                                  'Today', //day
-                                  style: GoogleFonts.questrial(
-                                    color: isDarkMode
-                                        ? Colors.white54
-                                        : Colors.black54,
-                                    fontSize: size.height * 0.035,
-                                  ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.03,
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.03,
-                              ),
-                              child: Align(
-                                child: Text(
-                                  // '$currTemp˚C', //curent temperature
-                                  firstDayWeather.isNotEmpty
-                                      ? '${firstDayWeather.first.temperature}˚C'
-                                      : '$currTemp˚C', //curent temperature
-                                  style: GoogleFonts.questrial(
-                                    color: currTemp <= 0
-                                        ? Colors.blue
-                                        : currTemp > 0 && currTemp <= 15
-                                            ? Colors.indigo
-                                            : currTemp > 15 && currTemp < 30
-                                                ? Colors.deepPurple
-                                                : Colors.green,
-                                    fontSize: size.height * 0.11,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.25),
-                              child: Divider(
-                                color: isDarkMode ? Colors.white : Colors.black,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.005,
-                              ),
-                              child: Align(
-                                child: Text(
-                                  'Sunny', // weather
-                                  style: GoogleFonts.questrial(
-                                    color: isDarkMode
-                                        ? Colors.white54
-                                        : Colors.black54,
-                                    fontSize: size.height * 0.03,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.03,
-                                bottom: size.height * 0.01,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '$minTemp˚C', // min temperature
+                                child: Align(
+                                  child: Text(
+                                    // '$currTemp˚C', //curent temperature
+                                    firstDayWeather.isNotEmpty
+                                        ? '${firstDayWeather.first.temperature}˚C'
+                                        : '$currTemp˚C', //curent temperature
                                     style: GoogleFonts.questrial(
-                                      color: minTemp <= 0
+                                      color: currTemp <= 0
                                           ? Colors.blue
-                                          : minTemp > 0 && minTemp <= 15
+                                          : currTemp > 0 && currTemp <= 15
                                               ? Colors.indigo
-                                              : minTemp > 15 && minTemp < 30
+                                              : currTemp > 15 && currTemp < 30
                                                   ? Colors.deepPurple
                                                   : Colors.green,
-                                      fontSize: size.height * 0.03,
+                                      fontSize: size.height * 0.11,
                                     ),
                                   ),
-                                  Text(
-                                    '/',
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: size.width * 0.25),
+                                child: Divider(
+                                  color: isDarkMode ? Colors.white : Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.005,
+                                ),
+                                child: Align(
+                                  child: Text(
+                                    'Sunny', // weather
                                     style: GoogleFonts.questrial(
                                       color: isDarkMode
                                           ? Colors.white54
@@ -946,328 +922,361 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       fontSize: size.height * 0.03,
                                     ),
                                   ),
-                                  Text(
-                                    '$maxTemp˚C', //max temperature
-                                    style: GoogleFonts.questrial(
-                                      color: maxTemp <= 0
-                                          ? Colors.blue
-                                          : maxTemp > 0 && maxTemp <= 15
-                                              ? Colors.indigo
-                                              : maxTemp > 15 && maxTemp < 30
-                                                  ? Colors.deepPurple
-                                                  : Colors.green,
-                                      fontSize: size.height * 0.03,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.05,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  color: isDarkMode
-                                      ? Colors.white.withOpacity(0.05)
-                                      : Colors.black.withOpacity(0.1),
                                 ),
-                                child: Column(
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.03,
+                                  bottom: size.height * 0.01,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                          top: size.height * 0.01,
-                                          left: size.width * 0.03,
-                                        ),
-                                        child: Text(
-                                          'Forecast for today',
-                                          style: GoogleFonts.questrial(
-                                            color: isDarkMode
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: size.height * 0.025,
-                                            fontWeight: FontWeight.bold,
+                                    Text(
+                                      '$minTemp˚C', // min temperature
+                                      style: GoogleFonts.questrial(
+                                        color: minTemp <= 0
+                                            ? Colors.blue
+                                            : minTemp > 0 && minTemp <= 15
+                                                ? Colors.indigo
+                                                : minTemp > 15 && minTemp < 30
+                                                    ? Colors.deepPurple
+                                                    : Colors.green,
+                                        fontSize: size.height * 0.03,
+                                      ),
+                                    ),
+                                    Text(
+                                      '/',
+                                      style: GoogleFonts.questrial(
+                                        color: isDarkMode
+                                            ? Colors.white54
+                                            : Colors.black54,
+                                        fontSize: size.height * 0.03,
+                                      ),
+                                    ),
+                                    Text(
+                                      '$maxTemp˚C', //max temperature
+                                      style: GoogleFonts.questrial(
+                                        color: maxTemp <= 0
+                                            ? Colors.blue
+                                            : maxTemp > 0 && maxTemp <= 15
+                                                ? Colors.indigo
+                                                : maxTemp > 15 && maxTemp < 30
+                                                    ? Colors.deepPurple
+                                                    : Colors.green,
+                                        fontSize: size.height * 0.03,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.05,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.05)
+                                        : Colors.black.withOpacity(0.1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.01,
+                                            left: size.width * 0.03,
+                                          ),
+                                          child: Text(
+                                            'Forecast for today',
+                                            style: GoogleFonts.questrial(
+                                              color: isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontSize: size.height * 0.025,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
                                       ),
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.all(size.width * 0.005),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: firstDayWeather.map((data) {
+                                              return buildForecastToday(
+                                                data.time,
+                                                data.temperature,
+                                                (data.windSpeed * 3.6)
+                                                    .round(), // Convert m/s to km/h
+                                                data.precipitation.toInt(),
+                                                getWeatherIcon(data.condition),
+                                                size,
+                                                isDarkMode,
+                                              );
+                                            }).toList(),
+                                            // children: [
+                                            //   //TODO: change weather forecast from local to api get
+                                            //   buildForecastToday(
+                                            //     "Now", //hour
+                                            //     currTemp, //temperature
+                                            //     20, //wind (km/h)
+                                            //     0, //rain chance (%)
+                                            //     FontAwesomeIcons
+                                            //         .sun, //weather icon
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "15:00",
+                                            //     1,
+                                            //     10,
+                                            //     40,
+                                            //     FontAwesomeIcons.cloud,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "16:00",
+                                            //     0,
+                                            //     25,
+                                            //     80,
+                                            //     FontAwesomeIcons.cloudRain,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "17:00",
+                                            //     -2,
+                                            //     28,
+                                            //     60,
+                                            //     FontAwesomeIcons.snowflake,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "18:00",
+                                            //     -5,
+                                            //     13,
+                                            //     40,
+                                            //     FontAwesomeIcons.cloudMoon,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "19:00",
+                                            //     -8,
+                                            //     9,
+                                            //     60,
+                                            //     FontAwesomeIcons.snowflake,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "20:00",
+                                            //     -13,
+                                            //     25,
+                                            //     50,
+                                            //     FontAwesomeIcons.snowflake,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "21:00",
+                                            //     -14,
+                                            //     12,
+                                            //     40,
+                                            //     FontAwesomeIcons.cloudMoon,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "22:00",
+                                            //     -15,
+                                            //     1,
+                                            //     30,
+                                            //     FontAwesomeIcons.moon,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            //   buildForecastToday(
+                                            //     "23:00",
+                                            //     -15,
+                                            //     15,
+                                            //     20,
+                                            //     FontAwesomeIcons.moon,
+                                            //     size,
+                                            //     isDarkMode,
+                                            //   ),
+                                            // ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.05,
+                                  vertical: size.height * 0.02,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
                                     ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.all(size.width * 0.005),
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          children: firstDayWeather.map((data) {
-                                            return buildForecastToday(
-                                              data.time,
-                                              data.temperature,
-                                              (data.windSpeed * 3.6)
-                                                  .round(), // Convert m/s to km/h
-                                              data.precipitation.toInt(),
-                                              getWeatherIcon(data.condition),
+                                    color: Colors.white.withOpacity(0.2),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.02,
+                                            left: size.width * 0.03,
+                                          ),
+                                          child: Text(
+                                            '7-day forecast',
+                                            style: GoogleFonts.questrial(
+                                              color: isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontSize: size.height * 0.025,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(
+                                        color: isDarkMode
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.all(size.width * 0.005),
+                                        child: Column(
+                                          children:
+                                              groupedWeather.entries.map((entry) {
+                                            String date = entry.key;
+                                            List<WeatherData> dailyData =
+                                                entry.value;
+        
+                                            int minTemp = dailyData
+                                                .map((e) => e.temperature)
+                                                .reduce((a, b) => a < b ? a : b);
+                                            int maxTemp = dailyData
+                                                .map((e) => e.temperature)
+                                                .reduce((a, b) => a > b ? a : b);
+                                            String mostFrequentCondition =
+                                                dailyData.first.condition;
+                                            IconData weatherIcon = getWeatherIcon(
+                                                mostFrequentCondition);
+        
+                                            return buildSevenDayForecast(
+                                              formatDate(
+                                                  date), // Convert "14-02-2025" -> "Friday"
+                                              minTemp.round(),
+                                              maxTemp.round(),
+                                              weatherIcon,
                                               size,
                                               isDarkMode,
                                             );
                                           }).toList(),
                                           // children: [
                                           //   //TODO: change weather forecast from local to api get
-                                          //   buildForecastToday(
-                                          //     "Now", //hour
-                                          //     currTemp, //temperature
-                                          //     20, //wind (km/h)
-                                          //     0, //rain chance (%)
+                                          //   buildSevenDayForecast(
+                                          //     "Today", //day
+                                          //     minTemp, //min temperature
+                                          //     maxTemp, //max temperature
                                           //     FontAwesomeIcons
-                                          //         .sun, //weather icon
+                                          //         .cloud, //weather icon
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
-                                          //   buildForecastToday(
-                                          //     "15:00",
-                                          //     1,
-                                          //     10,
-                                          //     40,
-                                          //     FontAwesomeIcons.cloud,
+                                          //   buildSevenDayForecast(
+                                          //     "Wed",
+                                          //     -5,
+                                          //     5,
+                                          //     FontAwesomeIcons.sun,
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
-                                          //   buildForecastToday(
-                                          //     "16:00",
-                                          //     0,
-                                          //     25,
-                                          //     80,
+                                          //   buildSevenDayForecast(
+                                          //     "Thu",
+                                          //     -2,
+                                          //     7,
                                           //     FontAwesomeIcons.cloudRain,
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
-                                          //   buildForecastToday(
-                                          //     "17:00",
-                                          //     -2,
-                                          //     28,
-                                          //     60,
-                                          //     FontAwesomeIcons.snowflake,
+                                          //   buildSevenDayForecast(
+                                          //     "Fri",
+                                          //     3,
+                                          //     10,
+                                          //     FontAwesomeIcons.sun,
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
-                                          //   buildForecastToday(
-                                          //     "18:00",
-                                          //     -5,
-                                          //     13,
-                                          //     40,
-                                          //     FontAwesomeIcons.cloudMoon,
-                                          //     size,
-                                          //     isDarkMode,
-                                          //   ),
-                                          //   buildForecastToday(
-                                          //     "19:00",
-                                          //     -8,
-                                          //     9,
-                                          //     60,
-                                          //     FontAwesomeIcons.snowflake,
-                                          //     size,
-                                          //     isDarkMode,
-                                          //   ),
-                                          //   buildForecastToday(
-                                          //     "20:00",
-                                          //     -13,
-                                          //     25,
-                                          //     50,
-                                          //     FontAwesomeIcons.snowflake,
-                                          //     size,
-                                          //     isDarkMode,
-                                          //   ),
-                                          //   buildForecastToday(
-                                          //     "21:00",
-                                          //     -14,
+                                          //   buildSevenDayForecast(
+                                          //     "San",
+                                          //     5,
                                           //     12,
-                                          //     40,
-                                          //     FontAwesomeIcons.cloudMoon,
+                                          //     FontAwesomeIcons.sun,
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
-                                          //   buildForecastToday(
-                                          //     "22:00",
-                                          //     -15,
+                                          //   buildSevenDayForecast(
+                                          //     "Sun",
+                                          //     4,
+                                          //     7,
+                                          //     FontAwesomeIcons.cloud,
+                                          //     size,
+                                          //     isDarkMode,
+                                          //   ),
+                                          //   buildSevenDayForecast(
+                                          //     "Mon",
+                                          //     -2,
                                           //     1,
-                                          //     30,
-                                          //     FontAwesomeIcons.moon,
+                                          //     FontAwesomeIcons.snowflake,
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
-                                          //   buildForecastToday(
-                                          //     "23:00",
-                                          //     -15,
-                                          //     15,
-                                          //     20,
-                                          //     FontAwesomeIcons.moon,
+                                          //   buildSevenDayForecast(
+                                          //     "Tues",
+                                          //     0,
+                                          //     3,
+                                          //     FontAwesomeIcons.cloudRain,
                                           //     size,
                                           //     isDarkMode,
                                           //   ),
                                           // ],
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.05,
-                                vertical: size.height * 0.02,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
+                                    ],
                                   ),
-                                  color: Colors.white.withOpacity(0.2),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                          top: size.height * 0.02,
-                                          left: size.width * 0.03,
-                                        ),
-                                        child: Text(
-                                          '7-day forecast',
-                                          style: GoogleFonts.questrial(
-                                            color: isDarkMode
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: size.height * 0.025,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(
-                                      color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.all(size.width * 0.005),
-                                      child: Column(
-                                        children:
-                                            groupedWeather.entries.map((entry) {
-                                          String date = entry.key;
-                                          List<WeatherData> dailyData =
-                                              entry.value;
-
-                                          int minTemp = dailyData
-                                              .map((e) => e.temperature)
-                                              .reduce((a, b) => a < b ? a : b);
-                                          int maxTemp = dailyData
-                                              .map((e) => e.temperature)
-                                              .reduce((a, b) => a > b ? a : b);
-                                          String mostFrequentCondition =
-                                              dailyData.first.condition;
-                                          IconData weatherIcon = getWeatherIcon(
-                                              mostFrequentCondition);
-
-                                          return buildSevenDayForecast(
-                                            formatDate(
-                                                date), // Convert "14-02-2025" -> "Friday"
-                                            minTemp.round(),
-                                            maxTemp.round(),
-                                            weatherIcon,
-                                            size,
-                                            isDarkMode,
-                                          );
-                                        }).toList(),
-                                        // children: [
-                                        //   //TODO: change weather forecast from local to api get
-                                        //   buildSevenDayForecast(
-                                        //     "Today", //day
-                                        //     minTemp, //min temperature
-                                        //     maxTemp, //max temperature
-                                        //     FontAwesomeIcons
-                                        //         .cloud, //weather icon
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "Wed",
-                                        //     -5,
-                                        //     5,
-                                        //     FontAwesomeIcons.sun,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "Thu",
-                                        //     -2,
-                                        //     7,
-                                        //     FontAwesomeIcons.cloudRain,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "Fri",
-                                        //     3,
-                                        //     10,
-                                        //     FontAwesomeIcons.sun,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "San",
-                                        //     5,
-                                        //     12,
-                                        //     FontAwesomeIcons.sun,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "Sun",
-                                        //     4,
-                                        //     7,
-                                        //     FontAwesomeIcons.cloud,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "Mon",
-                                        //     -2,
-                                        //     1,
-                                        //     FontAwesomeIcons.snowflake,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        //   buildSevenDayForecast(
-                                        //     "Tues",
-                                        //     0,
-                                        //     3,
-                                        //     FontAwesomeIcons.cloudRain,
-                                        //     size,
-                                        //     isDarkMode,
-                                        //   ),
-                                        // ],
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
