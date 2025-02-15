@@ -1,6 +1,6 @@
 # Invictus - Krishi Mitra
 
-![Invictus Logo](path_to_logo_image)
+![Invictus Logo](KrishiMitra_logo/field (1).png)
 
 ## 🌾 Overview
 
