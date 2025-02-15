@@ -85,6 +85,7 @@ flutter run  # Run the app on a connected device or emulator
 - **Ayushman Pal**
 - **Kaustubh Titare**
 - **Devesh Negi**
+- **Rishika Singh**
 
 ## 🤝 Contributing
 
