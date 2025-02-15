@@ -10,11 +10,13 @@
 
 ## 🚀 Features
 
-- **Chatbot Assistance** – Farmers can ask queries related to farming and get instant AI-driven responses.
-- **🌱 Crop and Disease Detection**: Uses machine learning models to identify crop types and diagnose diseases from uploaded images, providing treatment recommendations.
-- **📜 Government Schemes Information**: Offers insights into various government initiatives available to farmers, ensuring easy access to benefits.
-- **🌦️ Weather Forecasting**: Provides real-time weather updates and forecasts to help farmers plan effectively.
-- **📈 Market Price Updates**: Displays current market prices of crops, enabling informed selling decisions.
+- 🤖 **Chatbot Assistance** – Farmers can ask queries related to farming and get instant AI-driven responses.
+- 🌱 **Crop and Disease Detection** – Uses machine learning models to identify crop types and diagnose diseases from uploaded images, providing treatment recommendations.
+- 📜 **Government Schemes Information** – Offers insights into various government initiatives available to farmers, ensuring easy access to benefits.
+- 🌦️ **Weather Forecasting** – Provides real-time weather updates and forecasts to help farmers plan effectively.
+- 📈 **Market Price Updates** – Displays current market prices of crops, enabling informed selling decisions.
+- 📋 **Complete Crop Plan Generation** – Generates an optimized crop plan based on soil quality, weather conditions, and market trends.
+- 🌾 **Farmers Community** – A platform where farmers can interact, share knowledge, and support each other.
 
 ## 🛠️ Tech Stack
 
