@@ -2,7 +2,7 @@
   <img src="KrishiMitra_logo/field (1).png" alt="Invictus - Krishi Mitra Logo" width="200">
 </p>
 
-<h1 align="center">Invictus - Krishi Mitra</h1>
+<h1 align="center">INVICTUS - KRISHI MITRA</h1>
 
 ## 🌾 Overview
 
