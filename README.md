@@ -10,6 +10,7 @@
 
 ## 🚀 Features
 
+- **Chatbot Assistance** – Farmers can ask queries related to farming and get instant AI-driven responses.
 - **🌱 Crop and Disease Detection**: Uses machine learning models to identify crop types and diagnose diseases from uploaded images, providing treatment recommendations.
 - **📜 Government Schemes Information**: Offers insights into various government initiatives available to farmers, ensuring easy access to benefits.
 - **🌦️ Weather Forecasting**: Provides real-time weather updates and forecasts to help farmers plan effectively.
