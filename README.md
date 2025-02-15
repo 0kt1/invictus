@@ -1,83 +1,114 @@
 # Invictus - Krishi Mitra
 
-## 🚀 Overview
-This is a Flutter-based mobile application developed during a hackathon. The app provides [brief description of what the app does]. It is built with Flutter and integrates [mention any APIs, databases, or services used].
+![Invictus Logo](path_to_logo_image)
 
-## 📌 Features
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
-- [Any other key features]
+## 🌾 Overview
 
-## 🛠 Tech Stack
-- **Frontend:** Flutter (Dart)
-- **Backend:** [FastAPI / Firebase / Node.js / Any other backend]
-- **Database:** [Firestore / PostgreSQL / Any other database]
-- **Other Services:** [APIs, authentication methods, storage, etc.]
+**Invictus - Krishi Mitra** is an innovative mobile application designed to empower farmers across India by leveraging advanced technologies. Developed during a hackathon, this app provides comprehensive agricultural support, enhancing productivity and sustainability.
+
+## 🚀 Features
+
+- **🌱 Crop and Disease Detection**: Uses machine learning models to identify crop types and diagnose diseases from uploaded images, providing treatment recommendations.
+- **📜 Government Schemes Information**: Offers insights into various government initiatives available to farmers, ensuring easy access to benefits.
+- **🌦️ Weather Forecasting**: Provides real-time weather updates and forecasts to help farmers plan effectively.
+- **📈 Market Price Updates**: Displays current market prices of crops, enabling informed selling decisions.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Flutter (Dart)
+- **Backend**: FastAPI (Python)
+- **Database**: Firebase Firestore
+- **Machine Learning Models**: Trained using TensorFlow and integrated via RESTful APIs
 
 ## 📂 Project Structure
-```
-📦 flutter-hackathon-app
-├── 📁 lib             # Main application code
-├── 📁 assets          # Images, icons, and other assets
-├── 📁 test            # Unit and widget tests
-├── 📄 pubspec.yaml    # Dependencies and configurations
-└── 📄 README.md       # Project documentation
-```
 
-## ⚡ Getting Started
-
-### Prerequisites
-Make sure you have the following installed:
-- Flutter SDK: [Download here](https://flutter.dev/docs/get-started/install)
-- Dart SDK (included with Flutter)
-- Android Studio or VS Code (with Flutter plugin)
-- Emulator or a physical device with USB debugging enabled
-
-### Installation
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-username/flutter-hackathon-app.git
-   ```
-2. Navigate to the project directory:
-   ```sh
-   cd flutter-hackathon-app
-   ```
-3. Install dependencies:
-   ```sh
-   flutter pub get
-   ```
-
-### Running the App
-To start the application, run the following command:
-```sh
-flutter run
+```bash
+invictus/
+├── android/                # Android-specific code
+├── assets/                 # Images, icons, and other assets
+├── ios/                    # iOS-specific code
+├── lib/                    # Main application code
+│   ├── main.dart           # Entry point of the application
+│   ├── screens/            # UI screens
+│   ├── models/             # Data models
+│   ├── services/           # Backend communication and business logic
+│   └── widgets/            # Reusable UI components
+├── test/                   # Unit and widget tests
+├── backend/                # Backend API code
+│   ├── app.py              # Entry point for FastAPI application
+│   ├── models/             # Database models
+│   ├── routes/             # API routes
+│   └── ml_models/          # Machine learning model files
+├── pubspec.yaml            # Flutter project configuration
+└── README.md               # Project documentation
 ```
 
-If you are using a physical device, ensure it is connected and USB debugging is enabled.
+## ⚡ Installation and Setup
 
-### Environment Variables (if applicable)
-Create a `.env` file and add the necessary API keys or configuration details:
-```
-API_KEY=your_api_key_here
-BASE_URL=https://your-api-url.com
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/0kt1/invictus.git
+cd invictus
 ```
 
-## 🧪 Running Tests
-To run tests, execute:
-```sh
-flutter test
+### 2️⃣ Set up the Backend
+```bash
+cd backend
+python3 -m venv env
+source env/bin/activate  # On Windows: env\Scripts\activate
+pip install -r requirements.txt
+uvicorn app:app --reload  # Starts FastAPI server at http://127.0.0.1:8000
 ```
+
+### 3️⃣ Set up the Frontend
+```bash
+cd ../lib
+flutter pub get
+flutter run  # Run the app on a connected device or emulator
+```
+
+## 📌 Usage
+
+- **Capture or Upload Images**: Analyze crops and detect diseases.
+- **Get Diagnoses**: View disease reports and treatment suggestions.
+- **Access Government Schemes**: Explore relevant schemes for farmers.
+- **Stay Updated**: Receive real-time weather and market price alerts.
+
+## 👥 Team Members
+
+- **Anmol Upadhyay**
+- **Ayushman Pal**
+- **Kaustubh Titare**
+- **Devesh Negi**
 
 ## 🤝 Contributing
-1. Fork the repository.
-2. Create a new branch (`feature-branch-name`).
-3. Commit your changes.
-4. Push to your forked repo and create a Pull Request.
+
+1. **Fork the repository**.
+2. **Create a new branch**:
+   ```bash
+   git checkout -b feature/your_feature_name
+   ```
+3. **Make your changes**.
+4. **Commit your changes**:
+   ```bash
+   git commit -m "Add your commit message here"
+   ```
+5. **Push to your branch**:
+   ```bash
+   git push origin feature/your_feature_name
+   ```
+6. **Create a pull request**.
 
 ## 📜 License
-This project is licensed under the [MIT License](LICENSE).
 
-## 📞 Contact
-For any queries or collaborations, reach out at [your email or GitHub profile link].
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
+## 🙌 Acknowledgements
+
+- **Hackathon Organizers**: For providing a platform to build this innovation.
+- **Contributors**: Everyone involved in development and testing.
+- **Users**: The farming community for their invaluable feedback and support.
+
+---
+
+**_Let's revolutionize agriculture with technology! 🌍🚜_**
