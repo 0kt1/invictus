@@ -164,7 +164,7 @@ class _ChatbotState extends State<Chatbot> {
           Uri.parse(apiUrl),
           headers: {"Content-Type": "application/json"},
           // body: jsonEncode({"text": input}),
-          body: jsonEncode({"language": 'en', "user_input": input}),
+          body: _isCropPlan ? jsonEncode({"text": input}) : jsonEncode({"language": 'en', "user_input": input}),
         );
 
         if (response.statusCode == 200) {
@@ -207,10 +207,10 @@ class _ChatbotState extends State<Chatbot> {
       appBar: AppBar(
         title: Text(
           "KrishiMitra",
-          style: TextStyle(fontSize: 25, color: Colors.white),
+          style: TextStyle(fontSize: 25, color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
       // backgroundColor: Color(0xFF1E1F25),
       backgroundColor: Colors.white,

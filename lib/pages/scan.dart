@@ -296,8 +296,12 @@ class _ScanState extends State<Scan> {
       // backgroundColor: Color(0xFF1E1F25),
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: Text("Disease Detection"),
         automaticallyImplyLeading: false,
+        scrolledUnderElevation: 0.0,
+        elevation: 0.0,
+        surfaceTintColor: Colors.white,
       ),
       body: Center(
         child: ListView(

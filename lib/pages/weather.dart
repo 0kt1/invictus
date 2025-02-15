@@ -26,6 +26,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:invictus/onboarding.dart';
 
 class WeatherData {
   final String date; // e.g., "14-02-2025"
@@ -84,8 +85,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Map<String, List<WeatherData>> groupedWeather = {}; // Grouped by date
   List<WeatherData> firstDayWeather = [];
 
-  double lat = 12.9716; // Default: Bangalore
-  double lon = 77.5946;
+  double lat = userLocation!.latitude; // Default: user location
+  double lon = userLocation!.longitude;
   String cityName = "Bangalore";
   TextEditingController searchController = TextEditingController();
 
@@ -108,45 +109,71 @@ class _WeatherScreenState extends State<WeatherScreen> {
     if (response.statusCode == 200) {
       // List<dynamic> data = jsonDecode(response.body)["forecast"];
       // List<dynamic> data = jsonDecode(response.body);
-        // List<WeatherData> forecast = data.map((json) => WeatherData.fromJson(json)).toList();
-Map<String, dynamic> forecastData = jsonDecode(response.body)["forecast"]; // Extract the map
-        // Group weather data by date
-       Map<String, List<WeatherData>> grouped = {};
-        // Iterate over each date in the forecast data
-        forecastData.forEach((date, weatherList) {
-          if (weatherList is List<dynamic>) {
-            List<WeatherData> dailyForecast = weatherList
-                .map((json) => WeatherData.fromJson({...json, "date": date})) // Add date manually
-                .toList();
+      // List<WeatherData> forecast = data.map((json) => WeatherData.fromJson(json)).toList();
+      Map<String, dynamic> forecastData =
+          jsonDecode(response.body)["forecast"]; // Extract the map
+      // Group weather data by date
+      Map<String, List<WeatherData>> grouped = {};
+      // Iterate over each date in the forecast data
+      forecastData.forEach((date, weatherList) {
+        if (weatherList is List<dynamic>) {
+          List<WeatherData> dailyForecast = weatherList
+              .map((json) => WeatherData.fromJson(
+                  {...json, "date": date})) // Add date manually
+              .toList();
 
-            grouped[date] = dailyForecast;
-          }
-        });
+          grouped[date] = dailyForecast;
+        }
+      });
 
+      setState(() {
+        groupedWeather = grouped;
+        if (groupedWeather.isNotEmpty) {
+          String firstDate = groupedWeather.entries.first.key; // First date
+          List<WeatherData> _firstDayWeather =
+              groupedWeather.entries.first.value; // Corresponding weather data
 
-        
-
-        setState(() {
-          groupedWeather = grouped;
-          if (groupedWeather.isNotEmpty) {
-  String firstDate = groupedWeather.entries.first.key; // First date
-  List<WeatherData> _firstDayWeather = groupedWeather.entries.first.value; // Corresponding weather data
-
-setState(() {
-          firstDayWeather = _firstDayWeather;
-        });
-  print("First Date: $firstDate");
-  print("Weather Data: $_firstDayWeather");
-}
-        });
+          setState(() {
+            firstDayWeather = _firstDayWeather;
+          });
+          print("First Date: $firstDate");
+          print("Weather Data: $_firstDayWeather");
+        }
+      });
       // return "ok";
     } else {
       throw Exception("Failed to load data");
     }
   }
 
+  Future<void> fetchcoordinates() async {
+    final String geoUrl =
+        "https://us1.locationiq.com/v1/reverse?key=pk.92f5009bd00e373070479c0379cba5a9&lat=${userLocation!.latitude}&lon=${userLocation!.longitude}&format=json&";
 
-Future<void> fetchLatLon(String place) async {
+    try {
+      final response = await http.get(Uri.parse(geoUrl));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        if (jsonData.isNotEmpty) {
+          setState(() {
+            // lat = double.parse(jsonData[0]["lat"]);
+            // lon = double.parse(jsonData[0]["lon"]);
+            cityName = jsonData["display_name"];
+          });
+
+          print("Updated coords: $cityName, Lat: $lat, Lon: $lon");
+          fetchData(); // Fetch weather with new location
+        }
+      } else {
+        print("Failed to fetch coords: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error fetching coords: $e");
+    }
+  }
+
+  Future<void> fetchLatLon(String place) async {
     final String geoUrl =
         "https://us1.locationiq.com/v1/search?key=pk.92f5009bd00e373070479c0379cba5a9&q=$place&format=json&";
 
@@ -188,19 +215,18 @@ Future<void> fetchLatLon(String place) async {
     }
   }
 
-
-String formatDate(String date) {
+  String formatDate(String date) {
     DateTime parsedDate = DateFormat("dd-MM-yyyy").parse(date);
-    return DateFormat("EEEE").format(parsedDate); // Convert to "Monday", "Tuesday", etc.
+    return DateFormat("EEEE")
+        .format(parsedDate); // Convert to "Monday", "Tuesday", etc.
   }
-  
+
   @override
   void initState() {
     super.initState();
     fetchData();
+    fetchcoordinates();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -212,11 +238,6 @@ String formatDate(String date) {
     var brightness = MediaQuery.of(context).platformBrightness;
     // bool isDarkMode = brightness == Brightness.dark;
     bool isDarkMode = false;
-
-
-
-    
-
 
     return Scaffold(
       // body: Center(
@@ -728,22 +749,22 @@ String formatDate(String date) {
             height: size.height,
             width: size.width,
             decoration: const BoxDecoration(
-              // color: Colors.green,
-              // borderRadius: BorderRadius.only(
-              //   bottomLeft: Radius.circular(25),
-              //   bottomRight: Radius.circular(25),
-              // ),
-            ),
+                // color: Colors.green,
+                // borderRadius: BorderRadius.only(
+                //   bottomLeft: Radius.circular(25),
+                //   bottomRight: Radius.circular(25),
+                // ),
+                ),
             child: ClipRRect(
-              // borderRadius: const BorderRadius.only(
-              //   bottomLeft: Radius.circular(25),
-              //   bottomRight: Radius.circular(25),
-              // ),
-              // child: Image.asset(
-              //   "assets/images/weather2.jpg",
-              //   fit: BoxFit.cover, // Ensures the image covers the container
-              // ),
-            ),
+                // borderRadius: const BorderRadius.only(
+                //   bottomLeft: Radius.circular(25),
+                //   bottomRight: Radius.circular(25),
+                // ),
+                // child: Image.asset(
+                //   "assets/images/weather2.jpg",
+                //   fit: BoxFit.cover, // Ensures the image covers the container
+                // ),
+                ),
           ),
           Positioned(
             child: Center(
@@ -793,25 +814,23 @@ String formatDate(String date) {
                                 ],
                               ),
                             ),
-
                             Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText: "Search city",
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    if (searchController.text.isNotEmpty) {
-                      fetchLatLon(searchController.text);
-                    }
-                  },
-                ),
-              ),
-            ),
-          ),
-
+                              padding: const EdgeInsets.all(20.0),
+                              child: TextField(
+                                controller: searchController,
+                                decoration: InputDecoration(
+                                  labelText: "Search city",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.search),
+                                    onPressed: () {
+                                      if (searchController.text.isNotEmpty) {
+                                        fetchLatLon(searchController.text);
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.03,
@@ -826,9 +845,11 @@ String formatDate(String date) {
                                       color: isDarkMode
                                           ? Colors.white
                                           : Colors.black,
-                                      fontSize: size.height * 0.035,
+                                      fontSize: size.height * 0.02,
                                       fontWeight: FontWeight.bold,
+                                      
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
@@ -855,7 +876,10 @@ String formatDate(String date) {
                               ),
                               child: Align(
                                 child: Text(
-                                  '$currTemp˚C', //curent temperature
+                                  // '$currTemp˚C', //curent temperature
+                                  firstDayWeather.isNotEmpty
+                                      ? '${firstDayWeather.first.temperature}˚C'
+                                      : '$currTemp˚C', //curent temperature
                                   style: GoogleFonts.questrial(
                                     color: currTemp <= 0
                                         ? Colors.blue
@@ -1133,24 +1157,33 @@ String formatDate(String date) {
                                       padding:
                                           EdgeInsets.all(size.width * 0.005),
                                       child: Column(
-                                        children: groupedWeather.entries.map((entry) {
-                String date = entry.key;
-                List<WeatherData> dailyData = entry.value;
+                                        children:
+                                            groupedWeather.entries.map((entry) {
+                                          String date = entry.key;
+                                          List<WeatherData> dailyData =
+                                              entry.value;
 
-                int minTemp = dailyData.map((e) => e.temperature).reduce((a, b) => a < b ? a : b);
-                int maxTemp = dailyData.map((e) => e.temperature).reduce((a, b) => a > b ? a : b);
-                String mostFrequentCondition = dailyData.first.condition;
-                IconData weatherIcon = getWeatherIcon(mostFrequentCondition);
+                                          int minTemp = dailyData
+                                              .map((e) => e.temperature)
+                                              .reduce((a, b) => a < b ? a : b);
+                                          int maxTemp = dailyData
+                                              .map((e) => e.temperature)
+                                              .reduce((a, b) => a > b ? a : b);
+                                          String mostFrequentCondition =
+                                              dailyData.first.condition;
+                                          IconData weatherIcon = getWeatherIcon(
+                                              mostFrequentCondition);
 
-                return buildSevenDayForecast(
-                  formatDate(date), // Convert "14-02-2025" -> "Friday"
-                  minTemp.round(),
-                  maxTemp.round(),
-                  weatherIcon,
-                  size,
-                  isDarkMode,
-                );
-              }).toList(),
+                                          return buildSevenDayForecast(
+                                            formatDate(
+                                                date), // Convert "14-02-2025" -> "Friday"
+                                            minTemp.round(),
+                                            maxTemp.round(),
+                                            weatherIcon,
+                                            size,
+                                            isDarkMode,
+                                          );
+                                        }).toList(),
                                         // children: [
                                         //   //TODO: change weather forecast from local to api get
                                         //   buildSevenDayForecast(

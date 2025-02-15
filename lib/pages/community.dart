@@ -721,7 +721,7 @@ class _CommunityState extends State<Community> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text("Loading messages...", style: TextStyle(color: Colors.black54)));
+          return Center(child: Text("Loading messages...", style: TextStyle(color: Colors.white)));
         }
 
         if (snapshot.hasError) {
@@ -730,7 +730,7 @@ class _CommunityState extends State<Community> {
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return Center(
-            child: Text("No messages yet. Start the conversation!", style: TextStyle(color: Colors.black54)),
+            child: Text("No messages yet. Start the conversation!", style: TextStyle(color: Colors.white)),
           );
         }
 
@@ -783,15 +783,50 @@ class _CommunityState extends State<Community> {
     return "${timestamp.hour}:${timestamp.minute.toString().padLeft(2, '0')}";
   }
 
-  Widget _buildMessageInput() {
+  // Widget _buildMessageInput() {
+  //   return Padding(
+  //     padding: EdgeInsets.all(8),
+  //     child: Row(
+  //       children: [
+  //         Expanded(child: TextField(controller: _controller, decoration: InputDecoration(hintText: "Type a message..."))),
+  //         IconButton(icon: Icon(Icons.send, color: Colors.black), onPressed: _sendMessage),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+    Widget _buildMessageInput() {
     return Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Expanded(child: TextField(controller: _controller, decoration: InputDecoration(hintText: "Type a message..."))),
-          IconButton(icon: Icon(Icons.send, color: Colors.green), onPressed: _sendMessage),
-        ],
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 30, 39, 44),
+          borderRadius: BorderRadius.circular(25),
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                style: TextStyle(color: Colors.white),
+                controller: _controller,
+                decoration: const InputDecoration(
+                  hintText: "Type your message...",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none,
+                ),
+                onSubmitted: (_) => _sendMessage(),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.send, color: Colors.green),
+              onPressed: _sendMessage,
+            ),
+          ],
+        ),
       ),
     );
   }
+// }
+
 }
